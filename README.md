@@ -3,21 +3,24 @@
 ###storm-node
 
 #Example
+```node
+var Storm = require("storm-node");
+var SplitSentenceBolt = Storm.Bolt;
 
-	var SplitSentenceBolt = Storm.Bolt;
+SplitSentenceBolt.prototype.process = function(tuple, cb, self) {
+	var words = tuple.tuple[0].split(" ");
 
-	SplitSentenceBolt.prototype.process = function(tuple, self) {
-		var words = tuple.tuple[0].split(" ");
-	
-		for(var i = 0; i < words.length; i++)
-		{
-			self.emit([words[i]], self);
-		}
-	};
+	for(var i = 0; i < words.length; i++)
+	{
+		self.emit([words[i]], self);
+	}
+	cb();
+};
 
-	var ssb = new SplitSentenceBolt();
+var ssb = new SplitSentenceBolt();
 
-	ssb.run();
+ssb.run();
+```
 
 #Known Issues
 
